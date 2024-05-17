@@ -14,6 +14,16 @@ class THomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      //add icon button login to appbar leading position and navigate to login screen when clicked on it
+      leading: IconButton(
+        icon: const Icon(Iconsax.login, color: Colors.black),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder:(context) => const CartScreen()), //login screen
+            );
+        },
+      ),
       title: Text(
         AllTexts.homeAppbarTitle,
         style: Theme.of(context).textTheme.labelMedium!.apply(color: AllColors.black),
