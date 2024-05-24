@@ -4,12 +4,15 @@ import 'package:e_commerce_mobile/screens/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import '../screens/AllProductsScreen.dart';
+import '../screens/AddProductScreen.dart';
+
 
 import '../screens/FavouriteScreen.dart';
 
 
 class NavigationMenu extends StatelessWidget {
-  const NavigationMenu({super.key});
+  const   NavigationMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +29,14 @@ class NavigationMenu extends StatelessWidget {
           backgroundColor: darkMode ? Colors.amber : Colors.white,
           indicatorColor: darkMode ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1),
           
-          destinations: const [
-            NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Iconsax.heart), label: 'Wishlist'),
-            NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
-          ],
+         destinations: const [
+  NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
+  NavigationDestination(icon: Icon(Iconsax.heart), label: 'Wishlist'),
+  NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
+  NavigationDestination(icon: Icon(Iconsax.add), label: 'Add Product'),
+  NavigationDestination(icon: Icon(Iconsax.box), label: 'All Products'), 
+],
+
         ),
       ),
       body: Obx(() => controller.screens[controller.selectedIndex.value]),
@@ -38,9 +44,14 @@ class NavigationMenu extends StatelessWidget {
   }
 }
 
-
-class NavigationController extends GetxController{
+class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-   final screens = [const HomeScreen() , const FavouriteScreen() , const ProfileScreen() ]; //, const SettingsScreen()
+  final screens = [
+    const HomeScreen(),
+    const FavouriteScreen(),
+    const ProfileScreen(),
+     AddProductScreen(),
+     AllProductsScreen(),
+  ];
 }
