@@ -8,7 +8,6 @@ class AllProductsScreen extends StatefulWidget {
   @override
   _AllProductsScreenState createState() => _AllProductsScreenState();
 }
-
 class _AllProductsScreenState extends State<AllProductsScreen> {
   @override
   void initState() {
@@ -28,7 +27,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              Navigator.of(context).pushNamed('/add-product');
+              Navigator.of(context).pushNamed('/addProduct');
             },
           ),
         ],
@@ -38,24 +37,37 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
         child: ListView.builder(
           itemCount: products.length,
           itemBuilder: (ctx, index) {
-            return Dismissible(
-              key: ValueKey(products[index].id),
-              background: Container(
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.only(right: 20),
-                color: Colors.red,
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.white,
-                ),
-              ),
-              direction: DismissDirection.endToStart,
-              onDismissed: (direction) {
-                productProvider.deleteProduce(products[index].id);
-              },
-              child: ListTile(
-                title: Text(products[index].name),
-                subtitle: Text('Price: \$${products[index].price}, Quantity: ${products[index].quantity}'),
+            return ListTile(
+              title: Text(products[index].name),
+              subtitle: Text('Price: \$${products[index].price}, Quantity: ${products[index].quantity}'),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirm Delete'),
+                        content: Text('Are you sure you want to delete this product?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              productProvider.deleteProduce(products[index].id);
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Delete'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             );
           },
@@ -64,3 +76,4 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
     );
   }
 }
+  
