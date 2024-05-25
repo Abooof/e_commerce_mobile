@@ -101,5 +101,41 @@ class ProductProvider with ChangeNotifier {
     throw err;
   }
 }
+Future<void> addComment(String productId, String comment) async {
+    try {
+      var productURL = Uri.parse(
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
+      var response = await http.get(productURL);
+      if (response.statusCode == 200) {
+        var productData = json.decode(response.body);
+        List<dynamic> comments = productData['comments'] ?? [];
+
+        comments.add(comment);
+
+        var updateResponse = await http.patch(
+          productURL,
+          body: json.encode({
+            'comments': comments,
+          }),
+        );
+
+        if (updateResponse.statusCode == 200) {
+          _produceList.firstWhere((prod) => prod.id == productId).comments = List<String>.from(comments);
+          notifyListeners();
+        } else {
+          throw 'Failed to add comment';
+        }
+      } else {
+        throw 'Failed to fetch product data';
+      }
+    } catch (err) {
+      print("Error adding comment: $err");
+      throw err;
+    }
+  }
+
+  List<String> getProductComments(String productId) {
+    return _produceList.firstWhere((prod) => prod.id == productId).comments;
+  }
 
 }

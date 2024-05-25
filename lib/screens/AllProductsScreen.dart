@@ -36,24 +36,48 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
         ],
       ),
       body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (ctx, index) => ListTile(
-          title: Text(products[index].name),
-          subtitle: Text(
-              'Price: \$${products[index].price}, Quantity: ${products[index].quantity}'),
-          trailing: IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () => {
-              // Delete functionality
-            },
+  itemCount: products.length,
+  itemBuilder: (ctx, index) => ListTile(
+    title: Text(products[index].name),
+    subtitle: Text(
+        'Price: \$${products[index].price}, Quantity: ${products[index].quantity}'),
+    trailing: IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Delete Product'),
+            content: Text('Are you sure you want to delete this product?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Call the delete function from your provider
+                  Provider.of<ProductProvider>(context, listen: false)
+                      .deleteProduce(products[index].id);
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Delete'),
+              ),
+            ],
           ),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ProductDetailScreen(products[index]),
-            ),
-          ),
-        ),
+        );
+      },
+    ),
+    onTap: () => Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProductDetailScreen(products[index]),
       ),
+    ),
+  ),
+),
+
     );
   }
 }
