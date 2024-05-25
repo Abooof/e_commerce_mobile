@@ -43,19 +43,38 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
 
     try {
       if (_isLogin) {
-        final userData = await Provider.of<AuthProvider>(context, listen: false)
-            .login(email, password);
-        _showSuccessDialog(
-            'Login Successful', 'You have successfully logged in.');
-
-        // Navigate to the home page after successful login
+        await Provider.of<AuthProvider>(context, listen: false).login(email, password);
+        _showSuccessDialog('Login Successful', 'You have successfully logged in.');
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) => const NavigationMenu()), //add userdata
-        );
+        MaterialPageRoute(
+            builder: (context) => const NavigationMenu()), // add userdata
+      );
+        //redirect 
       } else {
-        // SignUp logic here
+        final displayName = _displayNameController.text;
+        final address = _addressController.text;
+        final phoneNumber = _phoneNumberController.text;
+        final profilePicture = ''; // Implement profile picture upload functionality if needed
+        final role = _role;
+        final shopName = role == 'vendor' ? _shopNameController.text : null;
+        final shopDescription = role == 'vendor' ? _shopDescriptionController.text : null;
+        final shopLocation = role == 'vendor' ? _shopLocationController.text : null;
+
+        await Provider.of<AuthProvider>(context, listen: false).signUp(
+          email,
+          displayName,
+          role,
+          profilePicture,
+          address,
+          phoneNumber,
+          password,
+          shopName,
+          shopDescription,
+          shopLocation,
+        );
+        _showSuccessDialog('Registration Successful', 'You have successfully signed up.');
       }
+      // Navigate to the home screen or desired screen on success
     } catch (error) {
       _showErrorDialog('An error occurred!', error.toString());
     }
