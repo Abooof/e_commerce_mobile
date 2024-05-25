@@ -13,12 +13,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final nameValue = TextEditingController();
   final priceValue = TextEditingController();
   final quantityValue = TextEditingController();
+    final categoryValue = TextEditingController();
+
   var isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     // Accessing the ProductProvider
-    final productProvider = Provider.of<ProductProvider>(context, listen: false);
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +38,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   nameValue.text,
                   double.parse(priceValue.text),
                   int.parse(quantityValue.text),
+                  categoryValue.text
                 );
                 // Success message (Optional)
                 ScaffoldMessenger.of(context)
@@ -86,6 +90,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     decoration: InputDecoration(labelText: 'Quantity'),
                     controller: quantityValue,
                     keyboardType: TextInputType.number, // For numeric input
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Category'),
+                    controller:
+                        categoryValue, // Add a new controller for category
                   ),
                 ],
               ),
