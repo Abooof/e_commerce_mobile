@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'Widget/navigation_menu.dart';
+import 'providers/AuthProvider.dart';
 
 Future<void> main() async {
 //    WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +25,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-     return ChangeNotifierProvider(
-      create: (ctx) => ProductProvider(),
+     return MultiProvider(
+
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => ProductProvider()),
+        ChangeNotifierProvider(create: (ctx) => AuthProvider())
+      ],
+      
       child: MaterialApp(
       
       title: 'Flutter Demo',
