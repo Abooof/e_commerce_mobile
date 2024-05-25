@@ -185,6 +185,7 @@ class AuthProvider with ChangeNotifier {
     _authenticated = false;
     _token = "";
     _userId = "";
+    _role = "";
     _expiryDate = DateTime.utc(1970);
     _currentUser = null;
     notifyListeners();
