@@ -186,7 +186,7 @@ class AuthProvider with ChangeNotifier {
       print("_currentUser $_currentUser");
       
 
-      _role = _currentUser.role;
+      _role = _currentUser!.role;
 
       print("role----> $_role");
 
