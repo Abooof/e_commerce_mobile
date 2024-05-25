@@ -5,6 +5,7 @@ import 'package:e_commerce_mobile/models/user_model.dart';
 
 class AuthProvider with ChangeNotifier {
   String _token = "";
+  String _role = "";
   DateTime _expiryDate = DateTime.utc(1970);
   String _userId = "";
   bool _authenticated = false;
@@ -28,7 +29,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   String get role {
-    return _currentUser?.role ?? "";
+    return _role;
   }
 
   UserModel? get currentUser {
@@ -168,9 +169,11 @@ class AuthProvider with ChangeNotifier {
         ),
       );
       final userData = await getUserByEmail(email);
+      _role = userData['role'];
+
+      print("role----> $_role");
 
       notifyListeners();
-
       return userData;
     } catch (error) {
       print("The error is: $error");
