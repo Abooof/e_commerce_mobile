@@ -1,3 +1,4 @@
+import 'package:e_commerce_mobile/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/productProvider.dart';
@@ -14,13 +15,15 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ProductProvider>(context, listen: false)
-        .fetchProduceFromServer();
+    var myProvider = Provider.of<ProductProvider>(context, listen: false);
+    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    myProvider.fetchProduceFromServer(authProvider.token);
   }
 
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     final products = productProvider.getAllProduce;
 
     return Scaffold(
@@ -40,36 +43,63 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
         itemBuilder: (ctx, index) => ListTile(
           title: Text(products[index].name),
           subtitle: Text(
-              'Price: \$${products[index].price}, Quantity: ${products[index].quantity}, Category: ${products[index].category}'), // Add category to subtitle
-          trailing: IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: Text('Delete Product'),
-                  content:
-                      Text('Are you sure you want to delete this product?'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text('Cancel'),
+              'Price: \$${products[index].price}, Quantity: ${products[index].quantity}, Category: ${products[index].category}'),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  // Call the method to add product to cart
+                  productProvider.addToCart(products[index].id, authProvider.currentUser! , context);
+                  // Show popup
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Success'),
+                      content: Text('Product added to cart.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () {
-                        // Call the delete function from your provider
-                        Provider.of<ProductProvider>(context, listen: false)
-                            .deleteProduce(products[index].id);
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text('Delete'),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Delete Product'),
+                      content:
+                          Text('Are you sure you want to delete this product?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Call the delete function from your provider
+                            productProvider.deleteProduce(products[index].id);
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Delete'),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ],
           ),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
