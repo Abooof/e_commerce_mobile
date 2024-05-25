@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../screens/FavouriteScreen.dart';
-
+import 'package:e_commerce_mobile/screens/vendor_profile_screen.dart'; // Import your vendor profile screen file
 
 class NavigationMenu extends StatelessWidget {
-  const NavigationMenu({super.key});
+  const NavigationMenu({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +18,19 @@ class NavigationMenu extends StatelessWidget {
 
     return Scaffold(
       bottomNavigationBar: Obx(
-        () => NavigationBar(
+            () => NavigationBar(
           height: 80,
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected: (index) => controller.selectedIndex.value = index,
           backgroundColor: darkMode ? Colors.amber : Colors.white,
           indicatorColor: darkMode ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1),
-          
+
           destinations: const [
-            NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Iconsax.heart), label: 'Wishlist'),
-            NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
+            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(icon: Icon(Icons.favorite), label: 'Wishlist'),
+            NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
+            NavigationDestination(icon: Icon(Icons.business), label: 'Vendor Profile'), // Using the business icon for vendor profile
           ],
         ),
       ),
@@ -38,9 +39,13 @@ class NavigationMenu extends StatelessWidget {
   }
 }
 
-
 class NavigationController extends GetxController{
   final Rx<int> selectedIndex = 0.obs;
 
-   final screens = [const HomeScreen() , const FavouriteScreen() , const ProfileScreen() ]; //, const SettingsScreen()
+  final screens = [
+    const HomeScreen(),
+    const FavouriteScreen(),
+     const ProfileScreen(),
+     VendorProfileScreen(), // New screen for vendor profile
+  ];
 }
