@@ -72,4 +72,34 @@ class ProductProvider with ChangeNotifier {
       print("Error deleting produce: $err");
     }
   }
+  Future<void> rateProduct(String productId, int rating) async {
+  try {
+    var productURL = Uri.parse(
+        'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
+    var response = await http.get(productURL);
+    if (response.statusCode == 200) {
+      var productData = json.decode(response.body);
+      List<dynamic> ratings = productData['ratings'] ?? [];
+      ratings.add(rating);
+
+      var updateResponse = await http.patch(
+        productURL,
+        body: json.encode({'ratings': ratings}),
+      );
+
+      if (updateResponse.statusCode == 200) {
+        _produceList.firstWhere((prod) => prod.id == productId).addRating(rating);
+        notifyListeners();
+      } else {
+        throw 'Failed to rate product';
+      }
+    } else {
+      throw 'Failed to fetch product data';
+    }
+  } catch (err) {
+    print("Error rating product: $err");
+    throw err;
+  }
+}
+
 }
