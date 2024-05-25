@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.2  
-  http: ^0.13.3  
+  http: ^1.2.1  
   
 
 
