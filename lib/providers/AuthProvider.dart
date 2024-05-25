@@ -10,6 +10,7 @@ class AuthProvider with ChangeNotifier {
   String _userId = "";
   bool _authenticated = false;
   UserModel? _currentUser;
+  String _DBid='';
 
   bool get isAuthenticated {
     return _authenticated;
@@ -26,6 +27,10 @@ class AuthProvider with ChangeNotifier {
 
   String get userId {
     return _userId;
+  }
+
+  String get DBid {
+    return _DBid;
   }
 
   String get role {
@@ -121,16 +126,20 @@ class AuthProvider with ChangeNotifier {
       final responseData = json.decode(response.body) as Map<String, dynamic>;
       print(responseData);
       // Iterate through all users to find the one with the matching email
-      final user = responseData.values.firstWhere(
-        (userData) => userData['email'] == email,
-        orElse: () => null,
-      );
+         final userEntry  = responseData.entries.firstWhere(
+      (entry) => entry.value['email'] == email,
+      orElse: () => MapEntry<String, dynamic>('id', null), // Return a dummy MapEntry if no user is found
+    );
 
-      if (user == null) {
-        throw Exception('User not found');
-      }
+    if (userEntry.value == null) {
+      throw Exception('User not found');
+    }
 
-      return user as Map<String, dynamic>; // Cast user to Map<String, dynamic>
+    // Extract user ID and user data
+    final userId = userEntry.key;
+    final userData = userEntry.value;
+
+    return {'id': userId, 'data': userData}; // Return user ID and user data
     } catch (error) {
       print('Error fetching user by email: $error');
       throw error;
@@ -168,10 +177,19 @@ class AuthProvider with ChangeNotifier {
           seconds: int.parse(authResponseData['expiresIn']),
         ),
       );
-      final userData = await getUserByEmail(email);
-      _role = userData['role'];
+
+      final  userData = await getUserByEmail(email);
+      print(userData);
+      _DBid=(userData['id']) as String;
+      print(_DBid);
+      _currentUser=UserModel.fromJson(userData['data']);
+      print("_currentUser $_currentUser");
+      
+
+      _role = _currentUser.role;
 
       print("role----> $_role");
+
 
       notifyListeners();
       return userData;
