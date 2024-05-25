@@ -1,3 +1,4 @@
+import 'package:e_commerce_mobile/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     // Accessing the ProductProvider
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false); 
 
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +40,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   nameValue.text,
                   double.parse(priceValue.text),
                   int.parse(quantityValue.text),
-                  categoryValue.text
+                  categoryValue.text,
+                  authProvider.token
                 );
                 // Success message (Optional)
                 ScaffoldMessenger.of(context)
