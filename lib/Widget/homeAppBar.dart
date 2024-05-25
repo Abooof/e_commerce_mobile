@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import '../helpers/Colors.dart';
 import '../helpers/allTexts.dart';
 import '../screens/CartScreen.dart';
+import '../screens/loginSignUpScreen.dart';
 
 
 class THomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,7 +21,7 @@ class THomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder:(context) => const CartScreen()), //login screen
+              MaterialPageRoute(builder:(context) =>  LoginSignUpScreen() ), //login screen
             );
         },
       ),

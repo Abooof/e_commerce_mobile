@@ -1,8 +1,13 @@
+import 'package:e_commerce_mobile/providers/productProvider.dart';
+import 'package:e_commerce_mobile/screens/AddProductScreen.dart';
+import 'package:e_commerce_mobile/screens/AllProductsScreen.dart';
 import 'package:e_commerce_mobile/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'Widget/navigation_menu.dart';
+import 'providers/AuthProvider.dart';
 
 Future<void> main() async {
 //    WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +25,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+     return MultiProvider(
+
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => ProductProvider()),
+        ChangeNotifierProvider(create: (ctx) => AuthProvider())
+      ],
+      
+      child: MaterialApp(
+      
       title: 'Flutter Demo',
       theme: ThemeData(
        
@@ -28,6 +41,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const NavigationMenu(),
-    );
+       initialRoute: '/',
+          routes: {
+            '/addProduct': (ctx) => AddProductScreen(),
+            '/all-product': (ctx) => AllProductsScreen(),
+            }
+    )
+     );
   }
 }
