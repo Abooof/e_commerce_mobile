@@ -41,7 +41,7 @@ class THomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0,
       actions: [
-        if (authProvider.isAuthenticated)
+        if (authProvider.isAuthenticated && authProvider.role == 'user')
           IconButton(
             icon: const Icon(Iconsax.shopping_bag, color: Colors.black),
             onPressed: () {

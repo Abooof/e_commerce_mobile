@@ -309,4 +309,108 @@ class ProductProvider with ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<List<Product>> getCartProducts(
+      UserModel currentUser, String token) async {
+    List<Product> cartProducts = [];
+
+    try {
+      if (currentUser.cart == null || currentUser.cart!.isEmpty) {
+        return cartProducts; // Return empty list if cart is null or empty
+      }
+
+      for (String productId in currentUser.cart!) {
+        // Fetch product details for each productId in the cart
+        var productURL = Uri.parse(
+            'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json?auth=$token');
+        var response = await http.get(productURL);
+        if (response.statusCode == 200) {
+          var productData = json.decode(response.body);
+          print("productData $productData");
+
+          Product product = Product(
+            id: productId,
+            name: productData['name'],
+            price: productData['price'],
+            quantity: productData['quantity'],
+            category: productData['category'],
+            vendorID: productData['vendorID'],
+            ratings: (productData['ratings'] != null &&
+                    productData['ratings'] is int)
+                ? List<int>.from(productData['ratings'])
+                : [],
+            ratedUserIds: (productData['ratedUserIds'] != null &&
+                    productData['ratedUserIds'] is Set<String>)
+                ? Set<String>.from(productData['ratedUserIds'])
+                : {},
+            comments: (productData['comments'] != null &&
+                    productData['comments'] is List<String>)
+                ? List<String>.from(productData['comments'])
+                : [],
+          );
+
+
+          cartProducts.add(product);
+          print(cartProducts);
+        } else {
+          print("Failed to fetch product data for productId: $productId");
+        }
+      }
+    } catch (err) {
+      print("Error fetching cart products: $err");
+    }
+
+    return cartProducts;
+  }
+    Future<void> removeFromCart(String productId, UserModel currentUser, String token,BuildContext context) async {
+    try {
+      // Remove productId from the user's cart list
+      currentUser.cart?.remove(productId);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      // Update user's data on the server
+      final updateUserUrl = Uri.parse('https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/user/${authProvider.DBid}.json');
+      
+      final updateResponse = await http.patch(
+        updateUserUrl,
+        body: json.encode({'cart': currentUser.cart}),
+      );
+
+      if (updateResponse.statusCode != 200) {
+        throw 'Failed to update user cart';
+      }
+
+      // Notify listeners that the data has changed
+      notifyListeners();
+    } catch (error) {
+      print("Error removing from cart: $error");
+      rethrow;
+    }
+  }
+
+  void clearCart(UserModel currentUser, String token, BuildContext context) async {
+    try {
+      // Clear the cart data in the user's profile
+      currentUser.cart?.clear();
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      // Update user's data on the server
+      final updateUserUrl = Uri.parse('https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/user/${authProvider.DBid}.json');
+      
+      final updateResponse = await http.patch(
+        updateUserUrl,
+        body: json.encode({'cart': currentUser.cart}),
+      );
+
+      if (updateResponse.statusCode != 200) {
+        throw 'Failed to update user cart';
+      }
+
+      // Notify listeners that the data has changed
+      notifyListeners();
+    } catch (error) {
+      print("Error clearing cart: $error");
+      rethrow;
+    }
+  }
 }

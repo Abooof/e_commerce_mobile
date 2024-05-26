@@ -67,7 +67,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 setState(() {
                   isLoading = false;
                 });
-                Navigator.of(context).pop();
               }
             },
             icon: const Icon(Icons.check),

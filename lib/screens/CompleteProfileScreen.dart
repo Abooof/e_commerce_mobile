@@ -1,3 +1,4 @@
+import 'package:e_commerce_mobile/Widget/homeAppBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +16,11 @@ class CompleteProfileScreen extends StatelessWidget {
         final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: Colors.deepPurple,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Profile'),
+      //   backgroundColor: Colors.deepPurple,
+      // ),
+      appBar: THomeAppBar(),
       body: SafeArea(
         child: SizedBox(
           width: double.infinity,
