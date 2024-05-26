@@ -42,6 +42,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   double.parse(priceValue.text),
                   int.parse(quantityValue.text),
                   categoryValue.text,
+                  authProvider.DBid,
                   authProvider.token
                 );
                 // Success message (Optional)
