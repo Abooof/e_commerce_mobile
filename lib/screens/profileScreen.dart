@@ -23,6 +23,7 @@
 //   }
 // }
 
+import 'package:e_commerce_mobile/Widget/homeAppBar.dart';
 import 'package:flutter/material.dart';
 import '../components/profile_menu.dart';
 import '../components/profile_pic.dart';
@@ -35,13 +36,15 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile"),
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Profile"),
+      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           children: [
+             THomeAppBar(),
+
             const ProfilePic(imageUrl: '',),
             const SizedBox(height: 20),
             ProfileMenu(

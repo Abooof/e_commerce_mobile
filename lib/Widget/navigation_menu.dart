@@ -1,3 +1,4 @@
+import 'package:e_commerce_mobile/screens/CompleteProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -103,14 +104,14 @@ class NavigationController extends GetxController {
            HomeScreen(),
            AllProductsScreen(),
            AddProductScreen(),
-           ProfileScreen(),
+           CompleteProfileScreen(),
         ];
       case 'user':
         return [
            HomeScreen(),
            AllProductsScreen(),
            FavouriteScreen(),
-           ProfileScreen(),
+           CompleteProfileScreen(),
         ];
       default:
         return [

@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
             '/addProduct': (ctx) => const AddProductScreen(),
             '/all-product': (ctx) => const AllProductsScreen(),
             ProfileScreen.routeName: (ctx) => const ProfileScreen(),
-            CompleteProfileScreen.routeName: (ctx) => CompleteProfileScreen(authProvider: Provider.of<AuthProvider>(ctx)),
           }
     )
      );
