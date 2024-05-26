@@ -7,6 +7,8 @@ import 'ProductDetailScreen.dart';
 class AllProductsScreen extends StatefulWidget {
   static const routeName = '/all-products';
 
+  const AllProductsScreen({super.key});
+
   @override
   _AllProductsScreenState createState() => _AllProductsScreenState();
 }
@@ -34,6 +36,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+
         title: Text('All Products'),
         actions: authProvider.isAuthenticated && authProvider.role == 'user'
             ? [
@@ -65,6 +68,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+
               if (authProvider.isAuthenticated && authProvider.role == 'user')
                 IconButton(
                   icon: Icon(Icons.shopping_cart),
