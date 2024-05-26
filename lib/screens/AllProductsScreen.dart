@@ -17,26 +17,34 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
     super.initState();
     var myProvider = Provider.of<ProductProvider>(context, listen: false);
     var authProvider = Provider.of<AuthProvider>(context, listen: false);
-    myProvider.fetchProduceFromServer(authProvider.token);
+
+    if (authProvider.role == 'vendor') {
+      myProvider.get_my_product(authProvider.DBid, authProvider.token);
+    } else {
+      myProvider.fetchProduceFromServer(authProvider.token);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
+
     final products = productProvider.getAllProduce;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('All Products'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/addProduct');
-            },
-          ),
-        ],
+        actions: authProvider.role == 'vendor'
+            ? [
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/addProduct');
+                  },
+                ),
+              ]
+            : null,
       ),
       body: ListView.builder(
         itemCount: products.length,
@@ -51,7 +59,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                 icon: Icon(Icons.shopping_cart),
                 onPressed: () {
                   // Call the method to add product to cart
-                  productProvider.addToCart(products[index].id, authProvider.currentUser! , context);
+                  productProvider.addToCart(products[index].id, authProvider.currentUser!, context);
                   // Show popup
                   showDialog(
                     context: context,
@@ -70,35 +78,35 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                   );
                 },
               ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: Text('Delete Product'),
-                      content:
-                          Text('Are you sure you want to delete this product?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(ctx).pop();
-                          },
-                          child: Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            // Call the delete function from your provider
-                            productProvider.deleteProduce(products[index].id);
-                            Navigator.of(ctx).pop();
-                          },
-                          child: Text('Delete'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              if (authProvider.role == 'vendor') // Conditionally show delete icon
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text('Delete Product'),
+                        content: Text('Are you sure you want to delete this product?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Call the delete function from your provider
+                              productProvider.deleteProduce(products[index].id, authProvider.token);
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Text('Delete'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
             ],
           ),
           onTap: () => Navigator.of(context).push(
