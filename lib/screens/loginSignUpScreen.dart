@@ -4,6 +4,8 @@ import '../Widget/navigation_menu.dart';
 import '../providers/AuthProvider.dart';
 
 class LoginSignUpScreen extends StatefulWidget {
+  const LoginSignUpScreen({super.key});
+
   @override
   _LoginSignUpScreenState createState() => _LoginSignUpScreenState();
 }
@@ -54,7 +56,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
         final displayName = _displayNameController.text;
         final address = _addressController.text;
         final phoneNumber = _phoneNumberController.text;
-        final profilePicture = ''; // Implement profile picture upload functionality if needed
+        const profilePicture = ''; // Implement profile picture upload functionality if needed
         final role = _role;
         final shopName = role == 'vendor' ? _shopNameController.text : null;
         final shopDescription = role == 'vendor' ? _shopDescriptionController.text : null;
@@ -92,7 +94,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
         content: Text(message),
         actions: <Widget>[
           TextButton(
-            child: Text('Okay'),
+            child: const Text('Okay'),
             onPressed: () {
               Navigator.of(ctx).pop();
               if (!_isLogin) {
@@ -115,7 +117,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
         content: Text(message),
         actions: <Widget>[
           TextButton(
-            child: Text('Okay'),
+            child: const Text('Okay'),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -132,7 +134,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
         title: Text(_isLogin ? 'Login' : 'Sign Up'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -140,7 +142,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               if (!_isLogin)
                 TextFormField(
                   controller: _displayNameController,
-                  decoration: InputDecoration(labelText: 'Display Name'),
+                  decoration: const InputDecoration(labelText: 'Display Name'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter a display name';
@@ -150,7 +152,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                 ),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value!.isEmpty || !value.contains('@')) {
@@ -161,7 +163,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty || value.length < 6) {
@@ -173,7 +175,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               if (!_isLogin)
                 TextFormField(
                   controller: _addressController,
-                  decoration: InputDecoration(labelText: 'Address'),
+                  decoration: const InputDecoration(labelText: 'Address'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your address';
@@ -184,7 +186,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               if (!_isLogin)
                 TextFormField(
                   controller: _phoneNumberController,
-                  decoration: InputDecoration(labelText: 'Phone Number'),
+                  decoration: const InputDecoration(labelText: 'Phone Number'),
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -196,7 +198,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               if (!_isLogin)
                 DropdownButtonFormField<String>(
                   value: _role,
-                  decoration: InputDecoration(labelText: 'Role'),
+                  decoration: const InputDecoration(labelText: 'Role'),
                   items: ['user', 'vendor'].map((String role) {
                     return DropdownMenuItem<String>(
                       value: role,
@@ -212,7 +214,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               if (!_isLogin && _role == 'vendor')
                 TextFormField(
                   controller: _shopNameController,
-                  decoration: InputDecoration(labelText: 'Shop Name'),
+                  decoration: const InputDecoration(labelText: 'Shop Name'),
                   validator: (value) {
                     if (_role == 'vendor' && value!.isEmpty) {
                       return 'Please enter your shop name';
@@ -223,7 +225,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               if (!_isLogin && _role == 'vendor')
                 TextFormField(
                   controller: _shopDescriptionController,
-                  decoration: InputDecoration(labelText: 'Shop Description'),
+                  decoration: const InputDecoration(labelText: 'Shop Description'),
                   validator: (value) {
                     if (_role == 'vendor' && value!.isEmpty) {
                       return 'Please enter your shop description';
@@ -234,7 +236,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
               if (!_isLogin && _role == 'vendor')
                 TextFormField(
                   controller: _shopLocationController,
-                  decoration: InputDecoration(labelText: 'Shop Location'),
+                  decoration: const InputDecoration(labelText: 'Shop Location'),
                   validator: (value) {
                     if (_role == 'vendor' && value!.isEmpty) {
                       return 'Please enter your shop location';
@@ -242,9 +244,9 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                     return null;
                   },
                 ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               if (_isLoading)
-                Center(child: CircularProgressIndicator())
+                const Center(child: CircularProgressIndicator())
               else
                 ElevatedButton(
                   onPressed: _submit,

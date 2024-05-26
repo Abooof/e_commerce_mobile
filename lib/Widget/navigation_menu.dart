@@ -63,20 +63,20 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   List<NavigationDestination> _buildDestinations(String role) {
     List<NavigationDestination> destinations = [
-      NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-      NavigationDestination(icon: Icon(Iconsax.box), label: 'All Products'),
+      const NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
+      const NavigationDestination(icon: Icon(Iconsax.box), label: 'All Products'),
     ];
 
     if (role == 'vendor') {
       destinations.add(
-          NavigationDestination(icon: Icon(Iconsax.add_square), label: 'Add Product'));
+          const NavigationDestination(icon: Icon(Iconsax.add_square), label: 'Add Product'));
       destinations.add(
-          NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));  
+          const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));  
     } else if (role == 'user') {
       destinations.add(
-          NavigationDestination(icon: Icon(Iconsax.heart), label: 'Favourite'));
+          const NavigationDestination(icon: Icon(Iconsax.heart), label: 'Favourite'));
       destinations.add(
-          NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));
+          const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));
     } 
 
     return destinations;
@@ -101,21 +101,21 @@ class NavigationController extends GetxController {
       case 'vendor':
         return [
           const HomeScreen(),
-          AllProductsScreen(),
-          AddProductScreen(),
+          const AllProductsScreen(),
+          const AddProductScreen(),
           const ProfileScreen(),
         ];
       case 'user':
         return [
           const HomeScreen(),
-          AllProductsScreen(),
+          const AllProductsScreen(),
           const FavouriteScreen(),
           const ProfileScreen(),
         ];
       default:
         return [
           const HomeScreen(),
-          AllProductsScreen(),
+          const AllProductsScreen(),
         ];
     }
   }
