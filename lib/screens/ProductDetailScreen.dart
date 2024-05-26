@@ -1,3 +1,4 @@
+import 'package:e_commerce_mobile/providers/AuthProvider.dart';
 import 'package:e_commerce_mobile/providers/productProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String newComment = ''; // Local variable to store the new comment
+    final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +43,7 @@ class ProductDetailScreen extends StatelessWidget {
                     (index) => IconButton(
                       onPressed: () {
                         int rating = index + 1;
-                        productProvider.rateProduct(product.id, rating).then((_) {
+                        productProvider.rateProduct(product.id, rating,authProvider.DBid,authProvider.token).then((_) {
                           // Refresh the UI after rating
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Thank you for rating!')),
@@ -98,7 +100,7 @@ class ProductDetailScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (newComment.isNotEmpty) {
-                          productProvider.addComment(product.id, newComment).then((_) {
+                          productProvider.addComment(product.id, newComment,authProvider.token).then((_) {
                             // Refresh the UI after adding the comment
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Comment added successfully!')),

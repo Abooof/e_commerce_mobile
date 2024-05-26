@@ -26,6 +26,8 @@ class ProductProvider with ChangeNotifier {
             price: value['price'],
             quantity: value['quantity'],
             category: value['category'],
+            vendorID: value['vendorID'],
+
           ));
         } catch (e) {
           print("Error parsing product data: $e");
@@ -37,9 +39,43 @@ class ProductProvider with ChangeNotifier {
       print("Error fetching produce: $err");
     }
   }
+   Future<void> get_my_product (vendoriD,String token) async {
+    try {
+      var produceURL = Uri.parse(
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product.json');
+      var response = await http.get(produceURL);
+
+      var fetchedData = json.decode(response.body) as Map<String, dynamic>?;
+
+      _produceList.clear();
+      fetchedData?.forEach((key, value) {
+        try {
+        if (value['vendorID'] == vendoriD) {
+          _produceList.add(Product(
+            id: key,
+            name: value['name'],
+            price: value['price'],
+            quantity: value['quantity'],
+            category: value['category'],
+            vendorID: value['vendorID'],
+            ratings: value['ratings'] != null ? List<int>.from(value['ratings']) : [],
+            ratedUserIds: value['ratedUserIds'] != null ? Set<String>.from(value['ratedUserIds']) : {},
+            comments: value['comments'] != null ? List<String>.from(value['comments']) : [],
+          ));
+        }
+      } catch (e) {
+        print("Error parsing product data: $e");
+      }
+    });
+      notifyListeners();
+    } catch (err) {
+      print("Error fetching produce: $err");
+    }
+  }
+
 
   Future<void> addProduct(String name, double price, int quantity,
-      String category, String token) async {
+      String category,String vendorid, String token) async {
     try {
       print("token:  $token ");
       var produceURL = Uri.parse(
@@ -52,7 +88,9 @@ class ProductProvider with ChangeNotifier {
           'name': name,
           'price': price,
           'quantity': quantity,
-          'category': category, // Add category to request body
+          'category': category, 
+          "vendorID": vendorid,
+
         }),
       );
       print("Response: ${response.body}");
@@ -68,7 +106,8 @@ class ProductProvider with ChangeNotifier {
         name: name,
         price: price,
         quantity: quantity,
-        category: category, // Initialize category
+        category: category, 
+        vendorID: vendorid,
       );
       _produceList.add(newProduct);
       notifyListeners();
@@ -84,10 +123,12 @@ class ProductProvider with ChangeNotifier {
     return [..._produceList];
   }
 
-  void deleteProduce(String idToDelete) async {
+  void deleteProduce(String idToDelete,String token) async {
+    print("idToDelete $idToDelete");
     var produceToDeleteURL = Uri.parse(
-        'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$idToDelete.json'); // Update with your actual URL
+        'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$idToDelete.json?auth=$token'); // Update with your actual URL
     try {
+      print(produceToDeleteURL);
       await http.delete(produceToDeleteURL);
       _produceList.removeWhere((element) => element.id == idToDelete);
       notifyListeners();
@@ -96,27 +137,45 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
-  Future<void> rateProduct(String productId, int rating) async {
+   Future<void> rateProduct(String productId, int rating, String userId,String token) async {
     try {
       var productURL = Uri.parse(
-          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json?auth=$token');
+          print(productURL);
       var response = await http.get(productURL);
       if (response.statusCode == 200) {
         var productData = json.decode(response.body);
-        print(productData); // Log the fetched data
-
         List<dynamic> ratings = productData['ratings'] ?? [];
-        ratings.add(rating);
+        Set<String> ratedUserIds = Set<String>.from(productData['ratedUserIds'] ?? []);
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>1");
+        // Check if the user has already rated the product
+        if (ratedUserIds.contains(userId)) {
+          // If the user has already rated, find and update their existing rating
+          int userRatingIndex = ratings.indexWhere((rating) => rating['userId'] == userId);
+                print(">>>>>>>>>>>>>>>>>>>>>>>>>>2");
+
+          if (userRatingIndex != -1) {
+            ratings[userRatingIndex]['rating'] = rating;
+          }
+        } else {
+          // If the user has not rated, add their rating
+          ratings.add({'userId': userId, 'rating': rating});
+          ratedUserIds.add(userId);
+        }
+                print(">>>>>>>>>>>>>>>>>>>>>>>>>>3");
 
         var updateResponse = await http.patch(
           productURL,
-          body: json.encode({'ratings': ratings}),
+          body: json.encode({
+            'ratings': ratings,
+            'ratedUserIds': [...ratedUserIds],
+          }),
         );
+                print(">>>>>>>>>>>>>>>>>>>>>>>>>>4");
+          print(updateResponse.body);
 
         if (updateResponse.statusCode == 200) {
-          _produceList
-              .firstWhere((prod) => prod.id == productId)
-              .addRating(rating);
+          _produceList.firstWhere((prod) => prod.id == productId).ratings = ratings.map<int>((e) => e['rating']).toList();
           notifyListeners();
         } else {
           throw 'Failed to rate product';
@@ -130,10 +189,10 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addComment(String productId, String comment) async {
+  Future<void> addComment(String productId, String comment,String token) async {
     try {
       var productURL = Uri.parse(
-          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json?auth=$token');
       var response = await http.get(productURL);
       if (response.statusCode == 200) {
         var productData = json.decode(response.body);
