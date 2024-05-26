@@ -188,17 +188,6 @@ class ProductProvider with ChangeNotifier {
       rethrow;
     }
   }
-  double calculateTotalPrice(UserModel currentUser) {
-  double totalPrice = 0.0;
-  currentUser.cart?.forEach((productId) {
-    final product = getProductById(productId);
-    totalPrice += product.price;
-  });
-  return totalPrice;
-}
-Product getProductById(String id) {
-  return _produceList.firstWhere((product) => product.id == id);
-}
 
   Future<void> addComment(String productId, String comment,String token) async {
     try {

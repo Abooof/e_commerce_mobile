@@ -73,8 +73,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
       destinations.add(
           const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));  
     } else if (role == 'user') {
-      // destinations.add(
-      //     const NavigationDestination(icon: Icon(Iconsax.heart), label: 'Favourite'));
+      destinations.add(
+          const NavigationDestination(icon: Icon(Iconsax.heart), label: 'Favourite'));
       destinations.add(
           const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));
     } 
@@ -109,7 +109,7 @@ class NavigationController extends GetxController {
         return [
           const HomeScreen(),
           const AllProductsScreen(),
-          // const FavouriteScreen(),
+          const FavouriteScreen(),
           const ProfileScreen(),
         ];
       default:
