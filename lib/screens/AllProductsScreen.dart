@@ -7,6 +7,8 @@ import 'ProductDetailScreen.dart';
 class AllProductsScreen extends StatefulWidget {
   static const routeName = '/all-products';
 
+  const AllProductsScreen({super.key});
+
   @override
   _AllProductsScreenState createState() => _AllProductsScreenState();
 }
@@ -28,10 +30,10 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Products'),
+        title: const Text('All Products'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.of(context).pushNamed('/addProduct');
             },
@@ -48,7 +50,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.shopping_cart),
+                icon: const Icon(Icons.shopping_cart),
                 onPressed: () {
                   // Call the method to add product to cart
                   productProvider.addToCart(products[index].id, authProvider.currentUser! , context);
@@ -56,14 +58,14 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                   showDialog(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                      title: Text('Success'),
-                      content: Text('Product added to cart.'),
+                      title: const Text('Success'),
+                      content: const Text('Product added to cart.'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
                             Navigator.of(ctx).pop();
                           },
-                          child: Text('OK'),
+                          child: const Text('OK'),
                         ),
                       ],
                     ),
@@ -71,20 +73,20 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                      title: Text('Delete Product'),
+                      title: const Text('Delete Product'),
                       content:
-                          Text('Are you sure you want to delete this product?'),
+                          const Text('Are you sure you want to delete this product?'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
                             Navigator.of(ctx).pop();
                           },
-                          child: Text('Cancel'),
+                          child: const Text('Cancel'),
                         ),
                         TextButton(
                           onPressed: () {
@@ -92,7 +94,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                             productProvider.deleteProduce(products[index].id);
                             Navigator.of(ctx).pop();
                           },
-                          child: Text('Delete'),
+                          child: const Text('Delete'),
                         ),
                       ],
                     ),

@@ -6,7 +6,7 @@ import '../models/product_model.dart';
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
 
-  ProductDetailScreen(this.product);
+  const ProductDetailScreen(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class ProductDetailScreen extends StatelessWidget {
                         productProvider.rateProduct(product.id, rating).then((_) {
                           // Refresh the UI after rating
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Thank you for rating!')),
+                            const SnackBar(content: Text('Thank you for rating!')),
                           );
                         }).catchError((error) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -60,8 +60,8 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Comments:',
                   style: TextStyle(
@@ -89,19 +89,19 @@ class ProductDetailScreen extends StatelessWidget {
                         onChanged: (value) {
                           newComment = value;
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Add a comment...',
                         ),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
                         if (newComment.isNotEmpty) {
                           productProvider.addComment(product.id, newComment).then((_) {
                             // Refresh the UI after adding the comment
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Comment added successfully!')),
+                              const SnackBar(content: Text('Comment added successfully!')),
                             );
                             newComment = ''; // Clear the comment field after adding the comment
                           }).catchError((error) {
@@ -111,7 +111,7 @@ class ProductDetailScreen extends StatelessWidget {
                           });
                         }
                       },
-                      child: Text('Add'),
+                      child: const Text('Add'),
                     ),
                   ],
                 ),

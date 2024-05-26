@@ -110,7 +110,7 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print("The error is: $error");
-      throw error;
+      rethrow;
     }
   }
 
@@ -128,7 +128,7 @@ class AuthProvider with ChangeNotifier {
       // Iterate through all users to find the one with the matching email
          final userEntry  = responseData.entries.firstWhere(
       (entry) => entry.value['email'] == email,
-      orElse: () => MapEntry<String, dynamic>('id', null), // Return a dummy MapEntry if no user is found
+      orElse: () => const MapEntry<String, dynamic>('id', null), // Return a dummy MapEntry if no user is found
     );
 
     if (userEntry.value == null) {
@@ -142,7 +142,7 @@ class AuthProvider with ChangeNotifier {
     return {'id': userId, 'data': userData}; // Return user ID and user data
     } catch (error) {
       print('Error fetching user by email: $error');
-      throw error;
+      rethrow;
     }
   }
 
@@ -195,9 +195,42 @@ class AuthProvider with ChangeNotifier {
       return userData;
     } catch (error) {
       print("The error is: $error");
-      throw error;
+      rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> getCurrentUserDetails() async {
+    final databaseUrl = Uri.parse(
+      'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/user.json',
+    );
+
+    try {
+      final response = await http.get(databaseUrl);
+      final responseData = json.decode(response.body) as Map<String, dynamic>;
+
+      // Iterate through all users to find the one with the matching userId
+      final user = responseData.values.firstWhere(
+            (userData) => userData['_userId'] == _userId,
+        orElse: () => null,
+      );
+
+      if (user == null) {
+        throw Exception('User not found');
+      }
+
+      return user as Map<String, dynamic>; // Cast user to Map<String, dynamic>
+    } catch (error) {
+      print('Error fetching current user details: $error');
+      rethrow;
+    }
+  }
+
+  Future<UserModel> fetchUserDetails() async {
+    final userResponse = await getCurrentUserDetails();
+    return UserModel.fromJson(userResponse);
+  }
+
+
 
   Future<void> logout() async {
     _authenticated = false;
