@@ -15,6 +15,7 @@ class THomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final authProvider = Provider.of<AuthProvider>(context);
     return AppBar(
       // Add icon button login to AppBar leading position and navigate to login screen when clicked on it
@@ -27,6 +28,31 @@ class THomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           );
         },
       ),
+=======
+    var authProvider = Provider.of<AuthProvider>(context);
+
+    return AppBar(
+      leading: authProvider.isAuthenticated
+          ? IconButton(
+              icon: const Icon(Iconsax.logout, color: Colors.black),
+              onPressed: () {
+                authProvider.logout();
+                // Optionally, you can navigate the user to the login screen or show a snackbar
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('You have been logged out')),
+                );
+              },
+            )
+          : IconButton(
+              icon: const Icon(Iconsax.login, color: Colors.black),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginSignUpScreen()),
+                );
+              },
+            ),
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
       title: Text(
         AllTexts.homeAppbarTitle,
         style: Theme.of(context).textTheme.labelMedium!.apply(color: AllColors.black),
@@ -35,7 +61,11 @@ class THomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0,
       actions: [
+<<<<<<< HEAD
         if (authProvider.role == "user")
+=======
+        if (authProvider.isAuthenticated && authProvider.role == 'user')
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
           IconButton(
             icon: const Icon(Iconsax.shopping_bag, color: Colors.black),
             onPressed: () {

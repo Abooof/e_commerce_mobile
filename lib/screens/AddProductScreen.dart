@@ -2,11 +2,10 @@ import 'package:e_commerce_mobile/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/product_model.dart';
 import '../providers/productProvider.dart';
 
 class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({super.key});
-
   @override
   _AddProductScreenState createState() => _AddProductScreenState();
 }
@@ -28,7 +27,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add new product"),
+        title: Text("Add new product"),
         backgroundColor: Colors.deepPurple, // Match your theme
         actions: [
           IconButton(
@@ -47,17 +46,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 );
                 // Success message (Optional)
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text("Product added!")));
+                    .showSnackBar(SnackBar(content: Text("Product added!")));
               } catch (err) {
                 // Error handling
                 showDialog<Null>(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: const Text('An error occurred!'),
+                    title: Text('An error occurred!'),
                     content: Text(err.toString()),
                     actions: [
                       TextButton(
-                        child: const Text('Okay'),
+                        child: Text('Okay'),
                         onPressed: () => Navigator.of(ctx).pop(),
                       )
                     ],
@@ -70,34 +69,34 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 Navigator.of(context).pop();
               }
             },
-            icon: const Icon(Icons.check),
+            icon: Icon(Icons.check),
           ),
         ],
       ),
       body: isLoading
-          ? const Center(
+          ? Center(
               child: CircularProgressIndicator(),
             )
           : Container(
-              margin: const EdgeInsets.all(10),
+              margin: EdgeInsets.all(10),
               child: Column(
                 children: [
                   TextField(
-                    decoration: const InputDecoration(labelText: 'Product Name'),
+                    decoration: InputDecoration(labelText: 'Product Name'),
                     controller: nameValue,
                   ),
                   TextField(
-                    decoration: const InputDecoration(labelText: 'Price'),
+                    decoration: InputDecoration(labelText: 'Price'),
                     controller: priceValue,
                     keyboardType: TextInputType.number, // For numeric input
                   ),
                   TextField(
-                    decoration: const InputDecoration(labelText: 'Quantity'),
+                    decoration: InputDecoration(labelText: 'Quantity'),
                     controller: quantityValue,
                     keyboardType: TextInputType.number, // For numeric input
                   ),
                   TextField(
-                    decoration: const InputDecoration(labelText: 'Category'),
+                    decoration: InputDecoration(labelText: 'Category'),
                     controller:
                         categoryValue, // Add a new controller for category
                   ),

@@ -7,7 +7,7 @@ import 'dart:convert';
 import '../models/product_model.dart';
 
 class ProductProvider with ChangeNotifier {
-  final List<Product> _produceList = [];
+  List<Product> _produceList = [];
   
   Future<void> fetchProduceFromServer(String token) async {
     try {
@@ -113,7 +113,7 @@ class ProductProvider with ChangeNotifier {
       notifyListeners();
     } catch (err) {
       print("Error adding produce: $err");
-      rethrow;
+      throw err;
     }
   }
 
@@ -185,7 +185,7 @@ class ProductProvider with ChangeNotifier {
       }
     } catch (err) {
       print("Error rating product: $err");
-      rethrow;
+      throw err;
     }
   }
   double calculateTotalPrice(UserModel currentUser) {
@@ -227,7 +227,7 @@ Product getProductById(String id) {
       }
     } catch (err) {
       print("Error adding comment: $err");
-      rethrow;
+      throw err;
     }
   }
 
@@ -260,7 +260,7 @@ Future<void> addToCart(String productId, UserModel currentUser, BuildContext con
       notifyListeners();
     } catch (error) {
       print("Error adding to cart: $error");
-      rethrow;
+      throw error;
     }
   }
   

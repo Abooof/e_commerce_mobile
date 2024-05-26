@@ -1,16 +1,31 @@
+<<<<<<< HEAD
 import 'package:e_commerce_mobile/models/user_model.dart';
 import 'package:e_commerce_mobile/providers/AuthProvider.dart';
 import 'package:e_commerce_mobile/providers/productProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+=======
+//create cart screen for e-commerce app
+//
+import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
 
-class CartScreen extends StatefulWidget {
+import '../Widget/navigation_menu.dart';
+import '../helpers/search.dart';
+
+class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
+<<<<<<< HEAD
 
   @override
   _CartScreenState createState() => _CartScreenState();
 }
 class _CartScreenState extends State<CartScreen> {
+=======
+  //create getter for the cart screen widget
+
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -20,6 +35,7 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
         title: const Text("Cart"),
         leading: const BackButton(),
         backgroundColor: Colors.transparent,
@@ -136,6 +152,22 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ],
+=======
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: const Center(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Text('Cart Screen', style: TextStyle(fontSize: 20)),
+          ],
+        ),
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
       ),
     );
   }

@@ -7,8 +7,6 @@ import 'ProductDetailScreen.dart';
 class AllProductsScreen extends StatefulWidget {
   static const routeName = '/all-products';
 
-  const AllProductsScreen({super.key});
-
   @override
   _AllProductsScreenState createState() => _AllProductsScreenState();
 }
@@ -36,6 +34,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
 
         title: Text('All Products'),
         actions: authProvider.isAuthenticated && authProvider.role == 'user'
@@ -58,6 +57,17 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                     ),
                   ]
                 : null),
+=======
+        title: Text('All Products'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/addProduct');
+            },
+          ),
+        ],
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
       ),
       body: ListView.builder(
         itemCount: products.length,
@@ -68,6 +78,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+<<<<<<< HEAD
 
               if (authProvider.isAuthenticated && authProvider.role == 'user')
                 IconButton(
@@ -122,6 +133,60 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                     );
                   },
                 ),
+=======
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  // Call the method to add product to cart
+                  productProvider.addToCart(products[index].id, authProvider.currentUser! , context);
+                  // Show popup
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Success'),
+                      content: Text('Product added to cart.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Delete Product'),
+                      content:
+                          Text('Are you sure you want to delete this product?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Call the delete function from your provider
+                            productProvider.deleteProduce(products[index].id);
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Delete'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
             ],
           ),
           onTap: () => Navigator.of(context).push(

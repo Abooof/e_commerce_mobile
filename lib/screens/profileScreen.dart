@@ -26,7 +26,6 @@
 import 'package:flutter/material.dart';
 import '../components/profile_menu.dart';
 import '../components/profile_pic.dart';
-import 'CompleteProfileScreen.dart';
 
 class ProfileScreen extends StatelessWidget {
   static String routeName = "/profile";
@@ -42,17 +41,16 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           children: [
-            const ProfilePic(imageUrl: '',),
+            const ProfilePic(),
             const SizedBox(height: 20),
             ProfileMenu(
               text: "My Account",
               icon: "assets/icons/User Icon.svg",
-              press: () => {Navigator.pushNamed(context,
-                  CompleteProfileScreen.routeName)},
+              press: () => {},
             ),
             ProfileMenu(
               text: "Notifications",
-              icon: "assets/icons/Bill Icon.svg",
+              icon: "assets/icons/Bell.svg",
               press: () {},
             ),
             ProfileMenu(

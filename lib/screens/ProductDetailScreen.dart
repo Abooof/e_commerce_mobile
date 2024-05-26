@@ -7,7 +7,7 @@ import '../models/product_model.dart';
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
 
-  const ProductDetailScreen(this.product, {super.key});
+  ProductDetailScreen(this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class ProductDetailScreen extends StatelessWidget {
                         productProvider.rateProduct(product.id, rating,authProvider.DBid,authProvider.token).then((_) {
                           // Refresh the UI after rating
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Thank you for rating!')),
+                            SnackBar(content: Text('Thank you for rating!')),
                           );
                         }).catchError((error) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -62,8 +62,8 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
                   'Comments:',
                   style: TextStyle(
@@ -91,19 +91,19 @@ class ProductDetailScreen extends StatelessWidget {
                         onChanged: (value) {
                           newComment = value;
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Add a comment...',
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
                         if (newComment.isNotEmpty) {
                           productProvider.addComment(product.id, newComment,authProvider.token).then((_) {
                             // Refresh the UI after adding the comment
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Comment added successfully!')),
+                              SnackBar(content: Text('Comment added successfully!')),
                             );
                             newComment = ''; // Clear the comment field after adding the comment
                           }).catchError((error) {
@@ -113,7 +113,7 @@ class ProductDetailScreen extends StatelessWidget {
                           });
                         }
                       },
-                      child: const Text('Add'),
+                      child: Text('Add'),
                     ),
                   ],
                 ),

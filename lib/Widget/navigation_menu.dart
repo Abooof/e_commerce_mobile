@@ -63,20 +63,25 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   List<NavigationDestination> _buildDestinations(String role) {
     List<NavigationDestination> destinations = [
-      const NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-      const NavigationDestination(icon: Icon(Iconsax.box), label: 'All Products'),
+      NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
+      NavigationDestination(icon: Icon(Iconsax.box), label: 'All Products'),
     ];
 
     if (role == 'vendor') {
       destinations.add(
-          const NavigationDestination(icon: Icon(Iconsax.add_square), label: 'Add Product'));
+          NavigationDestination(icon: Icon(Iconsax.add_square), label: 'Add Product'));
       destinations.add(
-          const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));  
+          NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));  
     } else if (role == 'user') {
+<<<<<<< HEAD
       // destinations.add(
       //     const NavigationDestination(icon: Icon(Iconsax.heart), label: 'Favourite'));
+=======
       destinations.add(
-          const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));
+          NavigationDestination(icon: Icon(Iconsax.heart), label: 'Favourite'));
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
+      destinations.add(
+          NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'));
     } 
 
     return destinations;
@@ -101,21 +106,26 @@ class NavigationController extends GetxController {
       case 'vendor':
         return [
           const HomeScreen(),
-          const AllProductsScreen(),
-          const AddProductScreen(),
+          AllProductsScreen(),
+          AddProductScreen(),
           const ProfileScreen(),
         ];
       case 'user':
         return [
           const HomeScreen(),
+<<<<<<< HEAD
           const AllProductsScreen(),
           // const FavouriteScreen(),
+=======
+          AllProductsScreen(),
+          const FavouriteScreen(),
+>>>>>>> parent of ebcf0ca (profile finshed for user and vendor excpt the image is not saved)
           const ProfileScreen(),
         ];
       default:
         return [
           const HomeScreen(),
-          const AllProductsScreen(),
+          AllProductsScreen(),
         ];
     }
   }

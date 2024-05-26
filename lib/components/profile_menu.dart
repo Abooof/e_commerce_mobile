@@ -5,11 +5,11 @@ import '../../../constants.dart';
 
 class ProfileMenu extends StatelessWidget {
   const ProfileMenu({
-    super.key,
+    Key? key,
     required this.text,
     required this.icon,
     this.press,
-  });
+  }) : super(key: key);
 
   final String text, icon;
   final VoidCallback? press;

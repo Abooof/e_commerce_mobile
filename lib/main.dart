@@ -1,8 +1,8 @@
 import 'package:e_commerce_mobile/providers/productProvider.dart';
 import 'package:e_commerce_mobile/screens/AddProductScreen.dart';
 import 'package:e_commerce_mobile/screens/AllProductsScreen.dart';
-import 'package:e_commerce_mobile/screens/CompleteProfileScreen.dart';
-import 'package:e_commerce_mobile/screens/profileScreen.dart';
+import 'package:e_commerce_mobile/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,11 +43,9 @@ class MyApp extends StatelessWidget {
       home: const NavigationMenu(),
        initialRoute: '/',
           routes: {
-            '/addProduct': (ctx) => const AddProductScreen(),
-            '/all-product': (ctx) => const AllProductsScreen(),
-            ProfileScreen.routeName: (ctx) => const ProfileScreen(),
-            CompleteProfileScreen.routeName: (ctx) => CompleteProfileScreen(authProvider: Provider.of<AuthProvider>(ctx)),
-          }
+            '/addProduct': (ctx) => AddProductScreen(),
+            '/all-product': (ctx) => AllProductsScreen(),
+            }
     )
      );
   }
