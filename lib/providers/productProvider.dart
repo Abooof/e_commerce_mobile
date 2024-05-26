@@ -1,48 +1,67 @@
+import 'package:e_commerce_mobile/models/user_model.dart';
+import 'package:e_commerce_mobile/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import '../models/product_model.dart';
 
 class ProductProvider with ChangeNotifier {
   List<Product> _produceList = [];
-  final produceURL = Uri.parse('https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product.json'); // Update with your actual URL
-
-  Future<void> fetchProduceFromServer() async {
+  
+  Future<void> fetchProduceFromServer(String token) async {
     try {
+      var produceURL = Uri.parse(
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product.json');
       var response = await http.get(produceURL);
-      var fetchedData = json.decode(response.body) as Map<String, dynamic>;
+
+      var fetchedData = json.decode(response.body) as Map<String, dynamic>?;
+
       _produceList.clear();
-      fetchedData.forEach((key, value) {
-        _produceList.add(Product(
-          id: key,
-          name: value['name'],
-          price: value['price'],
-          quantity: value['quantity'],
-          category: value['category'], // Fetch category
-        ));
+      fetchedData?.forEach((key, value) {
+        try {
+          _produceList.add(Product(
+            id: key,
+            name: value['name'],
+            price: value['price'],
+            quantity: value['quantity'],
+            category: value['category'],
+          ));
+        } catch (e) {
+          print("Error parsing product data: $e");
+        }
       });
+
       notifyListeners();
     } catch (err) {
       print("Error fetching produce: $err");
     }
   }
 
-  Future<void> addProduct(String name, double price, int quantity, String category) async {
+  Future<void> addProduct(String name, double price, int quantity,
+      String category, String token) async {
     try {
-        var response = await http.post(
-      produceURL,
-      body: json.encode({
-        'name': name,
-        'price': price,
-        'quantity': quantity,
-        'category': category, // Add category to request body
-      }),
-    );
+      print("token:  $token ");
+      var produceURL = Uri.parse(
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product.json?auth=$token');
+      print("produceURL: $produceURL");
+
+      var response = await http.post(
+        produceURL,
+        body: json.encode({
+          'name': name,
+          'price': price,
+          'quantity': quantity,
+          'category': category, // Add category to request body
+        }),
+      );
+      print("Response: ${response.body}");
 
       var responseData = json.decode(response.body);
       if (responseData == null || responseData['name'] == null) {
         throw 'Failed to add product. Server response is null or missing.';
       }
+      print("Fetched Data: $responseData");
 
       var newProduct = Product(
         id: responseData['name'],
@@ -66,7 +85,8 @@ class ProductProvider with ChangeNotifier {
   }
 
   void deleteProduce(String idToDelete) async {
-    var produceToDeleteURL = Uri.parse('https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$idToDelete.json'); // Update with your actual URL
+    var produceToDeleteURL = Uri.parse(
+        'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$idToDelete.json'); // Update with your actual URL
     try {
       await http.delete(produceToDeleteURL);
       _produceList.removeWhere((element) => element.id == idToDelete);
@@ -78,11 +98,12 @@ class ProductProvider with ChangeNotifier {
 
   Future<void> rateProduct(String productId, int rating) async {
     try {
-      var productURL = Uri.parse('https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
+      var productURL = Uri.parse(
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
       var response = await http.get(productURL);
       if (response.statusCode == 200) {
         var productData = json.decode(response.body);
-            print(productData); // Log the fetched data
+        print(productData); // Log the fetched data
 
         List<dynamic> ratings = productData['ratings'] ?? [];
         ratings.add(rating);
@@ -93,7 +114,9 @@ class ProductProvider with ChangeNotifier {
         );
 
         if (updateResponse.statusCode == 200) {
-          _produceList.firstWhere((prod) => prod.id == productId).addRating(rating);
+          _produceList
+              .firstWhere((prod) => prod.id == productId)
+              .addRating(rating);
           notifyListeners();
         } else {
           throw 'Failed to rate product';
@@ -109,7 +132,8 @@ class ProductProvider with ChangeNotifier {
 
   Future<void> addComment(String productId, String comment) async {
     try {
-      var productURL = Uri.parse('https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
+      var productURL = Uri.parse(
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/product/$productId.json');
       var response = await http.get(productURL);
       if (response.statusCode == 200) {
         var productData = json.decode(response.body);
@@ -122,7 +146,8 @@ class ProductProvider with ChangeNotifier {
         );
 
         if (updateResponse.statusCode == 200) {
-          _produceList.firstWhere((prod) => prod.id == productId).comments = List<String>.from(comments);
+          _produceList.firstWhere((prod) => prod.id == productId).comments =
+              List<String>.from(comments);
           notifyListeners();
         } else {
           throw 'Failed to add comment';
@@ -139,4 +164,34 @@ class ProductProvider with ChangeNotifier {
   List<String> getProductComments(String productId) {
     return _produceList.firstWhere((prod) => prod.id == productId).comments;
   }
-}
+Future<void> addToCart(String productId, UserModel currentUser, BuildContext context) async {
+    try {
+      // Add productId to the user's cart list
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      currentUser.cart ??= []; // Initialize cart list if null
+      currentUser.cart!.add(productId);
+  print(authProvider.DBid);
+      // Update user's data on the server
+      final updateUserUrl = Uri.parse(
+          'https://ecommerce-mobile-195ff-default-rtdb.firebaseio.com/user/${authProvider.DBid}.json');
+            print("updateUserUrl: $updateUserUrl");
+
+      final updateResponse = await http.patch(
+        updateUserUrl,
+        body: json.encode({'cart': currentUser.cart}),
+      );
+
+      if (updateResponse.statusCode != 200) {
+        throw 'Failed to update user cart';
+      }
+
+      // Notify listeners that the data has changed
+      notifyListeners();
+    } catch (error) {
+      print("Error adding to cart: $error");
+      throw error;
+    }
+  }
+  
+  }
