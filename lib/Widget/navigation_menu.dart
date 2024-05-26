@@ -100,22 +100,22 @@ class NavigationController extends GetxController {
     switch (role) {
       case 'vendor':
         return [
-          const HomeScreen(),
-          const AllProductsScreen(),
-          const AddProductScreen(),
-          const ProfileScreen(),
+           HomeScreen(),
+           AllProductsScreen(),
+           AddProductScreen(),
+           ProfileScreen(),
         ];
       case 'user':
         return [
-          const HomeScreen(),
-          const AllProductsScreen(),
-          const FavouriteScreen(),
-          const ProfileScreen(),
+           HomeScreen(),
+           AllProductsScreen(),
+           FavouriteScreen(),
+           ProfileScreen(),
         ];
       default:
         return [
-          const HomeScreen(),
-          const AllProductsScreen(),
+           HomeScreen(),
+           AllProductsScreen(),
         ];
     }
   }

@@ -1,6 +1,7 @@
 import 'package:e_commerce_mobile/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Widget/homeAppBar.dart';
 import '../providers/productProvider.dart';
 import 'ProductDetailScreen.dart';
 
@@ -35,30 +36,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
     final products = productProvider.getAllProduce; 
 
     return Scaffold(
-      appBar: AppBar(
-
-        title: Text('All Products'),
-        actions: authProvider.isAuthenticated && authProvider.role == 'user'
-            ? [
-                IconButton(
-                  icon: Icon(Icons.shopping_cart),
-                  onPressed: () {
-                    // Handle cart icon press for authenticated user
-                    // You can add your cart functionality here
-                  },
-                ),
-              ]
-            : (authProvider.role == 'vendor'
-                ? [
-                    IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/addProduct');
-                      },
-                    ),
-                  ]
-                : null),
-      ),
+      appBar:const THomeAppBar() ,
       body: ListView.builder(
         itemCount: products.length,
         itemBuilder: (ctx, index) => ListTile(
