@@ -126,7 +126,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
           ),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => ProductDetailScreen(products[index]),
+              builder: (context) => ProductDetailScreen(products[index].id),
             ),
           ),
         ),

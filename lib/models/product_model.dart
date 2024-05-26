@@ -32,7 +32,13 @@ class Product {
       return total / ratings.length;
     }
   }
-
+   int userRating(String userId) {
+    int index = ratedUserIds.toList().indexOf(userId);
+    if (index != -1 && index < ratings.length) {
+      return ratings[index];
+    }
+    return 0;
+  }
   void addRating(int rating) {
     ratings.add(rating);
   }
