@@ -47,33 +47,34 @@ class ProductDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text('Average Rating: ${product.averageRating.toStringAsFixed(1)}'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: List.generate(
-                          5,
-                          (index) => IconButton(
-                            onPressed: () {
-                              int rating = index + 1;
-                              productProvider.rateProduct(product.id, rating, authProvider.DBid, authProvider.token).then((_) {
-                                // Refresh the UI after rating
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Thank you for rating!')),
-                                );
-                              }).catchError((error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Failed to rate the product: $error')),
-                                );
-                              });
-                            },
-                            icon: Icon(
-                              Icons.star,
-                              color: index < userRating ? Colors.orange : Colors.grey, // Highlight stars based on user's rating
+                    if  (authProvider.role != 'vendor') // Show the rating UI only if the user is not a vendor
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: List.generate(
+                            5,
+                            (index) => IconButton(
+                              onPressed: () {
+                                int rating = index + 1;
+                                productProvider.rateProduct(product.id, rating, authProvider.DBid, authProvider.token).then((_) {
+                                  // Refresh the UI after rating
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank you for rating!')),
+                                  );
+                                }).catchError((error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Failed to rate the product: $error')),
+                                  );
+                                });
+                              },
+                              icon: Icon(
+                                Icons.star,
+                                color: index < userRating ? Colors.orange : Colors.grey, // Highlight stars based on user's rating
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
