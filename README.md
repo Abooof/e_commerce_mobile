@@ -25,14 +25,11 @@
 
 - **Shopping Cart and Checkout:**
   - Users can add items to their shopping cart.
-  - Checkout process integrates with various payment gateways for secure transactions.
+  - Checkout process integrates.
 
 - **Order Management:**
   - Shoppers can view their order history and track order status.
-  - Vendors can manage orders, update statuses, and view transaction history.
-
-- **Real-time Notifications:**
-  - Instant notifications for order updates, promotions, and more.
+  - Vendors can manage orders, update statuses.
 
 - **Customer Reviews and Ratings:**
   - Shoppers can rate products and provide feedback.
@@ -42,7 +39,6 @@
 - **Flutter:** For building the mobile application's UI.
 - **Firebase:** Backend services including authentication, database (Firestore), and storage.
 - **Dart:** Programming language used for Flutter.
-- **Stripe API:** For handling payments.
 
 ## Installation
 To set up the project on your local machine:
