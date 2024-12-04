@@ -111,7 +111,7 @@ Ensure the app provides a good UI/UX by following these guidelines:
 - **Prototyping**: Figma.
 - **UI Libraries**: Cupertino for iOS and Material for Android.
 
-### Suggested Development Steps
+### Development Steps
 
 1. **Set Up Firebase**:
    - Configure Firebase for authentication, database, and push notifications.
@@ -133,8 +133,5 @@ Ensure the app provides a good UI/UX by following these guidelines:
 
 7. **Error Handling and Testing**:
    - Implement error handling for connection issues and input validation. Test all features thoroughly.
-
-8. **Prepare for Submission**:
-   - Create a demo video, zip the project folder, and ensure the Figma link is accessible.
 
 
