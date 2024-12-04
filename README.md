@@ -1,49 +1,140 @@
-# E-commerce Mobile App
+# E-commerce Mobile Development Project
+## Project Overview
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Screenshots](#screenshots)
-- [API Reference](#api-reference)
-- [Contributing](#contributing)
-- [License](#license)
+You are required to develop a **mobile e-commerce platform** for vendors and shoppers in Egypt. The platform allows **vendors** to create profiles and list products, while **shoppers** can browse products, comment, rate, and place orders. The application should be developed with a focus on a user-friendly UI and UX, following good development practices.
 
-## Introduction
-**E-commerce Mobile App** is a cross-platform mobile application designed to facilitate online shopping experiences for both vendors and shoppers. Built with Flutter, this app provides a smooth and responsive user interface that adapts to different device sizes seamlessly.
+## Project Requirements
 
-## Features
-- **User Authentication:**
-  - Secure login and registration for both vendors and shoppers.
-  - Role-based access control for different functionalities.
+### 1. User Roles and Features
 
-- **Product Listings:**
-  - Vendors can list their products, including descriptions, prices, and images.
-  - Shoppers can browse products through various filters and categories.
+#### Vendors
+- Vendors must be logged in to create profiles and list products.
+- Can add products with images, descriptions, prices, and categorization.
+- Should have the ability to announce discounts on their products, triggering push notifications to shoppers.
 
-- **Shopping Cart and Checkout:**
-  - Users can add items to their shopping cart.
-  - Checkout process integrates.
+#### Shoppers
+- Can **browse**, **search**, and **read** product details without logging in.
+- Must be logged in to add **comments** and **rate** products.
+- Average product rating should be displayed on each product page.
+- Can add products to their **shopping cart** and proceed to checkout.
 
-- **Order Management:**
-  - Shoppers can view their order history and track order status.
-  - Vendors can manage orders, update statuses.
+### 2. App Screens and Navigation
 
-- **Customer Reviews and Ratings:**
-  - Shoppers can rate products and provide feedback.
-  - Vendors receive insights from customer reviews.
+The app should include multiple screens with appropriate navigation (bottom navigation, tabs, drawer menus). The following screens are required:
 
-## Technologies Used
-- **Flutter:** For building the mobile application's UI.
-- **Firebase:** Backend services including authentication, database (Firestore), and storage.
-- **Dart:** Programming language used for Flutter.
+- **Sign Up / Sign In**:
+  - Allow new users to register and existing users to log in.
+  - Differentiate between shoppers and vendors.
 
-## Installation
-To set up the project on your local machine:
+- **User Profile**:
+  - Vendors can manage profiles and their listed products.
+  - Shoppers can manage personal details and view order history.
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Abooof/e_commerce_mobile.git
-   cd e_commerce_mobile
+- **Products Overview**:
+  - A screen to list products based on categories, with search functionality.
+  - Users can filter and sort products.
+
+- **Product Details**:
+  - A detailed product page with images, descriptions, pricing, comments, and average ratings.
+  - Option to add products to the shopping cart.
+
+- **Vendor Profile**:
+  - Vendor-specific profile that displays their listed products and contact information.
+
+- **Shopping Cart**:
+  - Displays products added by the shopper, with options to modify quantities or remove items.
+  - Option to proceed to checkout.
+
+### 3. Database Requirements
+
+Use **Firebase** as the online database to store and manage data, including:
+
+- **Users**:
+  - Store user information for both shoppers and vendors.
+  - Authentication data, including secure storage of credentials and tokens.
+
+- **Products**:
+  - Store product details such as images, descriptions, pricing, ratings, and comments.
+
+### 4. Push Notifications
+
+The application must include **push notifications** to keep users informed. Examples include:
+
+- A **vendor adds a product**.
+- A **vendor announces a discount**.
+- New **comments** on a product.
+
+### 5. Error Handling
+
+Proper error handling must be implemented to improve user experience, including:
+
+- **Connection Issues**:
+  - Display an appropriate message if network issues occur.
+
+- **Wrong Inputs**:
+  - Validate inputs like email, password, and product information.
+
+- **Wrong Credentials**:
+  - Display a meaningful error message if login credentials are incorrect.
+
+### 6. Out-of-Scope Features
+
+You are required to include at least **two additional features** beyond the course scope, such as:
+
+- **Image Upload**:
+  - Allow users to upload product images from their gallery or camera.
+
+- **Email or SMS Notifications**:
+  - Send confirmation emails or SMS messages to users for events like registration or order placement.
+
+- **Shopping Cart Process**:
+  - Implement a complete shopping cart system, including secure transactions.
+
+- **Persistent Login**:
+  - Use **refresh tokens** to keep users logged in even after closing the app.
+
+### 7. User Interface and User Experience (UI/UX)
+
+Ensure the app provides a good UI/UX by following these guidelines:
+
+- **Prototype Development**:
+  - Create a prototype using **Figma**. Include all necessary screens.
+  - Use existing templates if necessary.
+
+## Development Plan
+
+### Tools & Technologies
+- **Frontend Framework**: Use a cross-platform framework like Flutter or React Native.
+- **Database**: Firebase Realtime Database or Firestore.
+- **Authentication**: Firebase Authentication.
+- **Push Notifications**: Firebase Cloud Messaging (FCM).
+- **Prototyping**: Figma.
+- **UI Libraries**: Cupertino for iOS and Material for Android.
+
+### Suggested Development Steps
+
+1. **Set Up Firebase**:
+   - Configure Firebase for authentication, database, and push notifications.
+
+2. **Create User Interfaces**:
+   - Prototype screens in **Figma**, then implement them in your mobile development framework.
+
+3. **Implement Authentication**:
+   - Create screens for login, registration, and role-based access for vendors and shoppers.
+
+4. **Develop Product Management**:
+   - Build screens for product listing, product details, adding/editing products.
+
+5. **Implement Shopping Cart**:
+   - Develop shopping cart functionality to manage products, update quantities, and proceed to checkout.
+
+6. **Add Push Notifications**:
+   - Use FCM to notify users of product updates, discounts, and comments.
+
+7. **Error Handling and Testing**:
+   - Implement error handling for connection issues and input validation. Test all features thoroughly.
+
+8. **Prepare for Submission**:
+   - Create a demo video, zip the project folder, and ensure the Figma link is accessible.
+
+
